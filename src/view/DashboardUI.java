@@ -1,8 +1,13 @@
 package view;
 
+import business.BasketController;
+import business.CartController;
 import business.CustomerController;
 import business.ProductController;
 import core.Helper;
+import core.Item;
+import entity.Basket;
+import entity.Cart;
 import entity.Customer;
 import entity.Product;
 import entity.User;
@@ -23,15 +28,22 @@ public class DashboardUI extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DashboardUI.class.getName());
 
     private User user;
-    
+
     private CustomerController customerController;
     private DefaultTableModel tmdl_customer = new DefaultTableModel();
     private JPopupMenu popup_customer = new JPopupMenu();
-    
+
     private ProductController productController;
     private DefaultTableModel tmdl_product = new DefaultTableModel();
     private JPopupMenu popup_product = new JPopupMenu();
 
+    private BasketController basketController;
+    private DefaultTableModel tmdl_basket = new DefaultTableModel();
+    private JPopupMenu popup_basket = new JPopupMenu();
+
+    private CartController cartController;
+    private DefaultTableModel tmdl_cart = new DefaultTableModel();
+    
     public DashboardUI(User user) {
         this.user = user;
         this.customerController = new CustomerController();
@@ -59,8 +71,14 @@ public class DashboardUI extends javax.swing.JFrame {
         cmb_fltr_product_stock.setSelectedItem(null);
         loadProductTabel(null);
         loadProductPopupMenu();
-        
 
+        //Basket
+        this.basketController = new BasketController();
+        loadBasketTabel();
+        loadBasketCustomerCombo();
+
+        this.cartController = new CartController();
+        loadCartTabel();
     }
 
     /**
@@ -104,6 +122,24 @@ public class DashboardUI extends javax.swing.JFrame {
         fld_fltr_product_name = new javax.swing.JTextField();
         fld_fltr_product_code = new javax.swing.JTextField();
         cmb_fltr_product_stock = new javax.swing.JComboBox<>();
+        pnl_basket = new javax.swing.JPanel();
+        scrl_basket = new javax.swing.JScrollPane();
+        tbl_basket = new javax.swing.JTable();
+        pnl_basket_filter = new javax.swing.JPanel();
+        pnl_basket_filter_in = new javax.swing.JPanel();
+        pnl_basket_btns = new javax.swing.JPanel();
+        btn_basket_reset = new javax.swing.JButton();
+        btn_basket_new = new javax.swing.JButton();
+        pnl_basket_lbls_and_cmb = new javax.swing.JPanel();
+        lbl_basket_cost_title = new javax.swing.JLabel();
+        lbl_basket_product_count_title = new javax.swing.JLabel();
+        cmb_fltr_basket_customer = new javax.swing.JComboBox<>();
+        lbl_fltr_basket_customer = new javax.swing.JLabel();
+        lbl_basket_cost = new javax.swing.JLabel();
+        lbl_basket_product_count = new javax.swing.JLabel();
+        pnl_cart = new javax.swing.JPanel();
+        scrl_cart = new javax.swing.JScrollPane();
+        tbl_cart = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1150, 750));
@@ -248,6 +284,7 @@ public class DashboardUI extends javax.swing.JFrame {
         scrl_products.setViewportView(tbl_products);
 
         btn_product_filter.setText("Suchen");
+        btn_product_filter.addActionListener(this::btn_product_filterActionPerformed);
 
         btn_product_reset.setText("Löschen");
         btn_product_reset.addActionListener(this::btn_product_resetActionPerformed);
@@ -261,11 +298,11 @@ public class DashboardUI extends javax.swing.JFrame {
             pnl_product_btnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_product_btnsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_product_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
+                .addComponent(btn_product_filter, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btn_product_reset, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_product_new, javax.swing.GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE))
+                .addComponent(btn_product_new, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
         );
         pnl_product_btnsLayout.setVerticalGroup(
             pnl_product_btnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +319,7 @@ public class DashboardUI extends javax.swing.JFrame {
 
         fld_fltr_product_name.addActionListener(this::fld_fltr_product_nameActionPerformed);
 
-        cmb_fltr_product_stock.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmb_fltr_product_stock.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { null,"Vorrärig", "Ausverkauft"}));
 
         javax.swing.GroupLayout pnl_product_flds_and_cmbLayout = new javax.swing.GroupLayout(pnl_product_flds_and_cmb);
         pnl_product_flds_and_cmb.setLayout(pnl_product_flds_and_cmbLayout);
@@ -373,6 +410,174 @@ public class DashboardUI extends javax.swing.JFrame {
 
         tab_menu.addTab("Produkte", pnl_products);
 
+        tbl_basket.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrl_basket.setViewportView(tbl_basket);
+
+        btn_basket_reset.setText("Liste löschen");
+        btn_basket_reset.addActionListener(this::btn_basket_resetActionPerformed);
+
+        btn_basket_new.setText("Bestellung erstellen");
+        btn_basket_new.addActionListener(this::btn_basket_newActionPerformed);
+
+        javax.swing.GroupLayout pnl_basket_btnsLayout = new javax.swing.GroupLayout(pnl_basket_btns);
+        pnl_basket_btns.setLayout(pnl_basket_btnsLayout);
+        pnl_basket_btnsLayout.setHorizontalGroup(
+            pnl_basket_btnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basket_btnsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_basket_reset, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_basket_new, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        pnl_basket_btnsLayout.setVerticalGroup(
+            pnl_basket_btnsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btn_basket_reset, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(btn_basket_new, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        lbl_basket_cost_title.setText("Gesamtkosten");
+
+        lbl_basket_product_count_title.setText("Anzahl der Produkte");
+
+        cmb_fltr_basket_customer.setMaximumSize(new java.awt.Dimension(32767, 26));
+
+        lbl_fltr_basket_customer.setText("Kunde auswählen");
+
+        lbl_basket_cost.setText("0€");
+
+        lbl_basket_product_count.setText("0");
+
+        javax.swing.GroupLayout pnl_basket_lbls_and_cmbLayout = new javax.swing.GroupLayout(pnl_basket_lbls_and_cmb);
+        pnl_basket_lbls_and_cmb.setLayout(pnl_basket_lbls_and_cmbLayout);
+        pnl_basket_lbls_and_cmbLayout.setHorizontalGroup(
+            pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_basket_lbls_and_cmbLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_fltr_basket_customer, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(cmb_fltr_basket_customer, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_basket_cost_title, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                    .addComponent(lbl_basket_cost, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_basket_product_count_title, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                    .addComponent(lbl_basket_product_count, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        pnl_basket_lbls_and_cmbLayout.setVerticalGroup(
+            pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_basket_lbls_and_cmbLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cmb_fltr_basket_customer, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_basket_cost)
+                        .addComponent(lbl_basket_product_count))
+                    .addGroup(pnl_basket_lbls_and_cmbLayout.createSequentialGroup()
+                        .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(pnl_basket_lbls_and_cmbLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(lbl_basket_cost_title, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                                .addComponent(lbl_fltr_basket_customer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbl_basket_product_count_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)))
+                .addContainerGap())
+        );
+
+        pnl_basket_lbls_and_cmbLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cmb_fltr_basket_customer, lbl_basket_cost, lbl_basket_product_count});
+
+        pnl_basket_lbls_and_cmbLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {lbl_basket_cost_title, lbl_basket_product_count_title, lbl_fltr_basket_customer});
+
+        javax.swing.GroupLayout pnl_basket_filter_inLayout = new javax.swing.GroupLayout(pnl_basket_filter_in);
+        pnl_basket_filter_in.setLayout(pnl_basket_filter_inLayout);
+        pnl_basket_filter_inLayout.setHorizontalGroup(
+            pnl_basket_filter_inLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(pnl_basket_lbls_and_cmb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(pnl_basket_filter_inLayout.createSequentialGroup()
+                .addComponent(pnl_basket_btns, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(275, 275, 275))
+        );
+        pnl_basket_filter_inLayout.setVerticalGroup(
+            pnl_basket_filter_inLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basket_filter_inLayout.createSequentialGroup()
+                .addComponent(pnl_basket_lbls_and_cmb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pnl_basket_btns, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout pnl_basket_filterLayout = new javax.swing.GroupLayout(pnl_basket_filter);
+        pnl_basket_filter.setLayout(pnl_basket_filterLayout);
+        pnl_basket_filterLayout.setHorizontalGroup(
+            pnl_basket_filterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basket_filterLayout.createSequentialGroup()
+                .addComponent(pnl_basket_filter_in, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(274, 274, 274))
+        );
+        pnl_basket_filterLayout.setVerticalGroup(
+            pnl_basket_filterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basket_filterLayout.createSequentialGroup()
+                .addComponent(pnl_basket_filter_in, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 1, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout pnl_basketLayout = new javax.swing.GroupLayout(pnl_basket);
+        pnl_basket.setLayout(pnl_basketLayout);
+        pnl_basketLayout.setHorizontalGroup(
+            pnl_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addComponent(pnl_basket_filter, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(scrl_basket, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE))
+        );
+        pnl_basketLayout.setVerticalGroup(
+            pnl_basketLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_basketLayout.createSequentialGroup()
+                .addComponent(pnl_basket_filter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(scrl_basket, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tab_menu.addTab("Bestellung erstellen", pnl_basket);
+
+        tbl_cart.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        scrl_cart.setViewportView(tbl_cart);
+
+        javax.swing.GroupLayout pnl_cartLayout = new javax.swing.GroupLayout(pnl_cart);
+        pnl_cart.setLayout(pnl_cartLayout);
+        pnl_cartLayout.setHorizontalGroup(
+            pnl_cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrl_cart, javax.swing.GroupLayout.DEFAULT_SIZE, 1088, Short.MAX_VALUE)
+        );
+        pnl_cartLayout.setVerticalGroup(
+            pnl_cartLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(scrl_cart, javax.swing.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+        );
+
+        tab_menu.addTab("Bestellungen", pnl_cart);
+
         javax.swing.GroupLayout containerLayout = new javax.swing.GroupLayout(container);
         container.setLayout(containerLayout);
         containerLayout.setHorizontalGroup(
@@ -420,6 +625,7 @@ public class DashboardUI extends javax.swing.JFrame {
             @Override
             public void windowClosed(WindowEvent e) {
                 loadCustomerTabel(null);
+                loadBasketCustomerCombo();
             }
         });
     }//GEN-LAST:event_btn_customer_newActionPerformed
@@ -437,12 +643,11 @@ public class DashboardUI extends javax.swing.JFrame {
     private void btn_product_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_product_newActionPerformed
         ProductUI productUI = new ProductUI(new Product());
         productUI.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    loadProductTabel(null);
-                }
-            });
-        //bura
+            @Override
+            public void windowClosed(WindowEvent e) {
+                loadProductTabel(null);
+            }
+        });
     }//GEN-LAST:event_btn_product_newActionPerformed
 
     private void btn_product_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_product_resetActionPerformed
@@ -451,6 +656,48 @@ public class DashboardUI extends javax.swing.JFrame {
         cmb_fltr_product_stock.setSelectedItem(null);
         loadProductTabel(null);
     }//GEN-LAST:event_btn_product_resetActionPerformed
+
+    private void btn_product_filterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_product_filterActionPerformed
+        ArrayList<Product> filteredProduct = this.productController.filter(
+                this.fld_fltr_product_name.getText(),
+                this.fld_fltr_product_code.getText(),
+                this.cmb_fltr_product_stock.getSelectedIndex()
+        );
+        loadProductTabel(filteredProduct);
+    }//GEN-LAST:event_btn_product_filterActionPerformed
+
+    private void btn_basket_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_basket_resetActionPerformed
+        if (basketController.clear()) {
+            loadBasketTabel();
+            Helper.showMsg("done");
+        } else {
+            Helper.showMsg("error");
+        }
+    }//GEN-LAST:event_btn_basket_resetActionPerformed
+
+    private void btn_basket_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_basket_newActionPerformed
+        if(cmb_fltr_basket_customer.getSelectedIndex() != -1){
+        System.out.println(cmb_fltr_basket_customer.getSelectedIndex());
+        int selectedCustomerID =cmb_fltr_basket_customer.getItemAt(cmb_fltr_basket_customer.getSelectedIndex()).getKey(); 
+        //^^this.cmb_fltr_basket_customer.addItem(new Item(comboKey, comboValue));^^
+        Customer customer = this.customerController.getById(selectedCustomerID);
+        if(customer.getId() != 0){
+        CartUI cartUI = new CartUI(this.customerController.getById(selectedCustomerID));
+        cartUI.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadBasketTabel();
+                    loadProductTabel(null);
+                    loadCartTabel();
+                }
+            });
+        }else{
+            Helper.showMsg("Kunde nicht gefunden");
+        }
+        }else
+            Helper.showMsg("Bitte wählen Sie einen gültigen Kunden aus");
+        
+    }//GEN-LAST:event_btn_basket_newActionPerformed
 
     private void loadCustomerPopupMenu() {
         this.tbl_customer.addMouseListener(new MouseAdapter() {
@@ -470,6 +717,7 @@ public class DashboardUI extends javax.swing.JFrame {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     loadCustomerTabel(null);
+                    loadBasketCustomerCombo();
                 }
             });
         });
@@ -479,6 +727,7 @@ public class DashboardUI extends javax.swing.JFrame {
             if (Helper.confirm("sure")) {
                 if (this.customerController.delete(selectId)) {
                     loadCustomerTabel(null);
+                    loadBasketCustomerCombo();
                     Helper.showMsg("done");
                 } else {
                     Helper.showMsg("error");
@@ -524,10 +773,10 @@ public class DashboardUI extends javax.swing.JFrame {
     }
 
     private void loadProductTabel(ArrayList<Product> products) {
-        Object[] columnProduct = {"ID", "Productname", "Productnummer", "Preis", "Lagerstatus" };
+        Object[] columnProduct = {"ID", "Productname", "Productnummer", "Preis", "Lagerstatus"};
 
         if (products == null) {
-            products = this.productController.findAll(); 
+            products = this.productController.findAll();
         }
 
         // Table Cleared
@@ -535,14 +784,13 @@ public class DashboardUI extends javax.swing.JFrame {
         clearModel.setRowCount(0);
 
         this.tmdl_product.setColumnIdentifiers(columnProduct);
-       for(Product product : products){ 
+        for (Product product : products) {
             Object[] rowObject = {
                 product.getId(),
                 product.getName(),
                 product.getCode(),
                 product.getPrice(),
-                product.getStock(),
-                };
+                product.getStock(),};
             this.tmdl_product.addRow(rowObject);
         }
         this.tbl_products.setModel(tmdl_product);
@@ -555,7 +803,7 @@ public class DashboardUI extends javax.swing.JFrame {
             tbl_products.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         });
     }
-    
+
     private void loadProductPopupMenu() {
         this.tbl_products.addMouseListener(new MouseAdapter() {
             @Override
@@ -566,23 +814,42 @@ public class DashboardUI extends javax.swing.JFrame {
             }
         });
 
+        this.popup_product.add("In den Warenkorb").addActionListener(e -> {
+            int selectId = Integer.parseInt(tbl_products.getValueAt(tbl_products.getSelectedRow(), 0).toString());
+            System.out.println("In den Warenkorb ID:" + selectId);
+            Product basketProduct = productController.getById(selectId);
+            if (basketProduct.getStock() <= 0) {
+                Helper.showMsg("Produkt nicht vorrätig!");
+            } else {
+                Basket basket = new Basket(basketProduct.getId());
+                if (this.basketController.save(basket)) {
+                    loadBasketTabel();
+                    Helper.showMsg("done");
+                } else {
+                    Helper.showMsg("error");
+                }
+            }
+        });
+
         this.popup_product.add("Bearbeiten").addActionListener(e -> {
             int selectId = Integer.parseInt(tbl_products.getValueAt(tbl_products.getSelectedRow(), 0).toString());
-            System.out.println("Bearbeiten ID:" + selectId);
+            //System.out.println("Bearbeiten ID:" + selectId);
             ProductUI productUI = new ProductUI(this.productController.getById(selectId));
             productUI.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
                     loadProductTabel(null);
+                    loadBasketTabel();
                 }
             });
         });
         this.popup_product.add("Entfernen").addActionListener(e -> {
             int selectId = Integer.parseInt(tbl_products.getValueAt(tbl_products.getSelectedRow(), 0).toString());
-            System.out.println("Entfernen ID:" + selectId);
+            //System.out.println("Entfernen ID:" + selectId);
             if (Helper.confirm("sure")) {
                 if (this.productController.delete(selectId)) {
                     loadProductTabel(null);
+                    loadBasketTabel();
                     Helper.showMsg("done");
                 } else {
                     Helper.showMsg("error");
@@ -591,6 +858,86 @@ public class DashboardUI extends javax.swing.JFrame {
         });
 
         this.tbl_products.setComponentPopupMenu(this.popup_product);
+    }
+
+    private void loadBasketTabel() {
+        Object[] columnBasket = {"ID", "Productname", "Productnummer", "Preis", "Lagerstatus"};
+        ArrayList<Basket> baskets = this.basketController.findAll();
+
+        // Table Cleared
+        DefaultTableModel clearModel = (DefaultTableModel) this.tbl_basket.getModel();
+        clearModel.setRowCount(0);
+
+        this.tmdl_basket.setColumnIdentifiers(columnBasket);
+        int totalPrice = 0;
+        for (Basket basket : baskets) {
+            Object[] rowObject = {
+                basket.getId(),
+                basket.getProduct().getName(),
+                basket.getProduct().getCode(),
+                basket.getProduct().getPrice(),
+                basket.getProduct().getStock(),};
+            this.tmdl_basket.addRow(rowObject);
+
+            totalPrice += basket.getProduct().getPrice();
+        }
+        this.lbl_basket_cost.setText(String.valueOf(totalPrice) + "€");
+        this.lbl_basket_product_count.setText(String.valueOf(baskets.size()) + " Stück");
+
+        this.tbl_basket.setModel(tmdl_basket);
+        this.tbl_basket.getTableHeader().setReorderingAllowed(false);
+        this.tbl_basket.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.tbl_basket.setEnabled(true);
+        this.tbl_basket.setDefaultEditor(Object.class, null);
+
+        SwingUtilities.invokeLater(() -> {
+            tbl_basket.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        });
+    }
+
+    private void loadBasketCustomerCombo() {
+
+        ArrayList<Customer> customers = this.customerController.findAll();
+        this.cmb_fltr_basket_customer.removeAllItems();
+        for (Customer customer : customers) {
+            int comboKey = customer.getId();
+            String comboValue = customer.getName();
+            this.cmb_fltr_basket_customer.addItem(new Item(comboKey, comboValue));
+        }
+        this.cmb_fltr_basket_customer.setSelectedItem(null);
+    }
+    
+    private void loadCartTabel() {
+        Object[] columnCart = {"ID", "Kundenname", "Productname", "Preis", "Bestelldatum", "Hinweis"};
+        ArrayList<Cart> carts = this.cartController.findAll();
+
+        // Table Cleared
+        DefaultTableModel clearModel = (DefaultTableModel) this.tbl_cart.getModel();
+        clearModel.setRowCount(0);
+
+        this.tmdl_cart.setColumnIdentifiers(columnCart); 
+        for (Cart cart : carts) {
+            Object[] rowObject = {
+                cart.getId(),
+                cart.getCustomer().getName(),
+                cart.getProduct().getName(),
+                cart.getPrice(),
+                cart.getDate(),
+                cart.getNote()
+            };
+            this.tmdl_cart.addRow(rowObject);
+ 
+        } 
+
+        this.tbl_cart.setModel(tmdl_cart);
+        this.tbl_cart.getTableHeader().setReorderingAllowed(false);
+        this.tbl_cart.getColumnModel().getColumn(0).setMaxWidth(50);
+        this.tbl_cart.setEnabled(true);
+        this.tbl_cart.setDefaultEditor(Object.class, null);
+
+        SwingUtilities.invokeLater(() -> {
+            tbl_cart.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        });
     }
 
     /**
@@ -618,6 +965,8 @@ public class DashboardUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_basket_new;
+    private javax.swing.JButton btn_basket_reset;
     private javax.swing.JButton btn_customer_filter;
     private javax.swing.JButton btn_customer_new;
     private javax.swing.JButton btn_customer_reset;
@@ -626,11 +975,17 @@ public class DashboardUI extends javax.swing.JFrame {
     private javax.swing.JButton btn_product_new;
     private javax.swing.JButton btn_product_reset;
     private javax.swing.JComboBox<Customer.TYPE> cmb_f_customer_type;
+    private javax.swing.JComboBox<Item> cmb_fltr_basket_customer;
     private javax.swing.JComboBox<String> cmb_fltr_product_stock;
     private javax.swing.JPanel container;
     private javax.swing.JTextField fld_f_customer_name;
     private javax.swing.JTextField fld_fltr_product_code;
     private javax.swing.JTextField fld_fltr_product_name;
+    private javax.swing.JLabel lbl_basket_cost;
+    private javax.swing.JLabel lbl_basket_cost_title;
+    private javax.swing.JLabel lbl_basket_product_count;
+    private javax.swing.JLabel lbl_basket_product_count_title;
+    private javax.swing.JLabel lbl_fltr_basket_customer;
     private javax.swing.JLabel lbl_fltr_cstmr_name;
     private javax.swing.JLabel lbl_fltr_cstmr_type;
     private javax.swing.JLabel lbl_fltr_product_code;
@@ -638,6 +993,12 @@ public class DashboardUI extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_fltr_product_stock;
     private javax.swing.JLabel lbl_welcome;
     private javax.swing.JPanel pnd_product_filter;
+    private javax.swing.JPanel pnl_basket;
+    private javax.swing.JPanel pnl_basket_btns;
+    private javax.swing.JPanel pnl_basket_filter;
+    private javax.swing.JPanel pnl_basket_filter_in;
+    private javax.swing.JPanel pnl_basket_lbls_and_cmb;
+    private javax.swing.JPanel pnl_cart;
     private javax.swing.JPanel pnl_customer;
     private javax.swing.JPanel pnl_customer_filter;
     private javax.swing.JPanel pnl_product_btns;
@@ -645,9 +1006,13 @@ public class DashboardUI extends javax.swing.JFrame {
     private javax.swing.JPanel pnl_product_flds_and_cmb;
     private javax.swing.JPanel pnl_products;
     private javax.swing.JPanel pnl_top;
+    private javax.swing.JScrollPane scrl_basket;
+    private javax.swing.JScrollPane scrl_cart;
     private javax.swing.JScrollPane scrl_customer;
     private javax.swing.JScrollPane scrl_products;
     private javax.swing.JTabbedPane tab_menu;
+    private javax.swing.JTable tbl_basket;
+    private javax.swing.JTable tbl_cart;
     private javax.swing.JTable tbl_customer;
     private javax.swing.JTable tbl_products;
     // End of variables declaration//GEN-END:variables

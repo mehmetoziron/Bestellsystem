@@ -61,7 +61,7 @@ public class Helper {
         UIManager.put("OptionPane.yesButtonText", "Ja");
         UIManager.put("OptionPane.noButtonText", "Nein");
     }
-    
+
     public static void showMsg(String message) {
         String msg;
         String title;
@@ -84,17 +84,31 @@ public class Helper {
         }
         JOptionPane.showMessageDialog(null, msg, title, JOptionPane.INFORMATION_MESSAGE);
     }
-    
-    public static boolean confirm(String str){
-        
+
+    public static boolean confirm(String str) {
+
         String msg;
-        
-        if (str.equals("sure")){
+
+        if (str.equals("sure")) {
             msg = "Sind Sie sicher, dass Sie diese Aktion ausführen möchten?";
-        }else{
+        } else {
             msg = str;
         }
-        
-        return JOptionPane.showConfirmDialog(null, msg, "Sind Sie sicher?",JOptionPane.YES_NO_OPTION) == 0;
+
+        return JOptionPane.showConfirmDialog(null, msg, "Sind Sie sicher?", JOptionPane.YES_NO_OPTION) == 0;
     }
+
+    public static String formatDateInput(String str) {
+        if(str.length() != 0){
+            System.out.println("if");
+            if(str.length()==2){ 
+                System.out.println("ifif");
+                str+="/";
+            }
+        }
+        System.out.println(str);
+        // Sadece rakamları al
+        return str;
+    }
+
 }

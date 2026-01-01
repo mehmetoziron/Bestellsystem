@@ -66,7 +66,7 @@ public class ProductDao {
             pr.setString(2, product.getCode());
             pr.setInt(3, product.getPrice());
             pr.setInt(4, product.getStock());
-            System.out.println(pr);
+            //System.out.println(pr);
             return pr.executeUpdate() != -1;
         } catch (SQLException ex) {
             System.getLogger(ProductDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -83,7 +83,7 @@ public class ProductDao {
 
         } catch (SQLException ex) {
             System.getLogger(ProductDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        return false;
+            return false;
         }
     }
 
@@ -102,11 +102,24 @@ public class ProductDao {
             pr.setInt(3, product.getPrice());
             pr.setInt(4, product.getStock());
             pr.setInt(5, product.getId());
-            return pr.executeUpdate()!= -1;
+            return pr.executeUpdate() != -1;
         } catch (SQLException ex) {
             System.getLogger(ProductDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        return false;
+            return false;
         }
+    }
+
+    public ArrayList<Product> query(String query) {
+        ArrayList<Product> products = new ArrayList<>();
+                try {
+            ResultSet rs = this.connection.createStatement().executeQuery(query);
+            while (rs.next()) {
+                products.add(this.match(rs));
+            }
+        } catch (SQLException ex) {
+            System.getLogger(ProductDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+                return products;
     }
 
     private Product match(ResultSet rs) throws SQLException {
