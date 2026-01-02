@@ -5,6 +5,7 @@ public class Basket {
  
     private int id;
     private int product_id;
+    private int quantity;
     private Product product;
 
     public Basket() {
@@ -20,6 +21,14 @@ public class Basket {
 
     public void setId(int id) {
         this.id = id;
+    }
+    
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getProduct_id() {
@@ -40,7 +49,7 @@ public class Basket {
 
     @Override
     public String toString() {
-        return "Basket{" + "id=" + id + ", product_id=" + product_id + ", product=" + product + '}';
+        return "Basket{" + "id=" + id + ", product_id=" + product_id + ", quantity=" + quantity + ", product=" + product + '}';
     }
     
     

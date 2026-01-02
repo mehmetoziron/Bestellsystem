@@ -8,6 +8,7 @@ public class Cart {
     private int customerId;
     private int productId;
     private int price;
+    private int quantity;
     private String note;
     private LocalDate date;
     private Customer customer;
@@ -52,6 +53,14 @@ public class Cart {
         return note;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public void setNote(String note) {
         this.note = note;
     }
@@ -87,6 +96,7 @@ public class Cart {
                 + ", \ncustomerId=" + customerId
                 + ", \nproductId=" + productId
                 + ", \nprice=" + price
+                + ", \nquantity=" + quantity
                 + ", \nnote=" + note
                 + ", \ndate=" + date
                 + ", \ncustomer=" + customer

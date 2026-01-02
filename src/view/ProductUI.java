@@ -63,7 +63,7 @@ public class ProductUI extends javax.swing.JFrame {
 
         container.setPreferredSize(new java.awt.Dimension(300, 521));
 
-        lbl_product_title.setText("jLabel1");
+        lbl_product_title.setText("Product");
 
         lbl_product_name.setText("Productname");
 

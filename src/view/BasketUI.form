@@ -18,7 +18,7 @@
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="3"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
-    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,121,0,0,1,44"/>
+    <AuxValue name="designerSize" type="java.awt.Dimension" value="-84,-19,0,5,115,114,0,18,106,97,118,97,46,97,119,116,46,68,105,109,101,110,115,105,111,110,65,-114,-39,-41,-84,95,68,20,2,0,2,73,0,6,104,101,105,103,104,116,73,0,5,119,105,100,116,104,120,112,0,0,1,121,0,0,1,68"/>
   </AuxValues>
 
   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
@@ -33,21 +33,30 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="btn_save" max="32767" attributes="0"/>
-                      <Component id="lbl_product_title" alignment="1" pref="288" max="32767" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="lbl_name" alignment="1" max="32767" attributes="0"/>
+                      <Component id="btn_save" alignment="1" max="32767" attributes="0"/>
+                      <Component id="lbl_basket_title" alignment="1" pref="312" max="32767" attributes="0"/>
                       <Component id="lbl_product_name" alignment="1" max="32767" attributes="0"/>
-                      <Component id="fld_product_name" alignment="1" max="32767" attributes="0"/>
                       <Component id="lbl_product_code" alignment="1" max="32767" attributes="0"/>
-                      <Component id="fld_product_code" alignment="1" max="32767" attributes="0"/>
                       <Component id="lbl_product_price" alignment="1" max="32767" attributes="0"/>
-                      <Component id="fld_product_price" alignment="1" max="32767" attributes="0"/>
-                      <Component id="lbl_product_stock" alignment="1" max="32767" attributes="0"/>
-                      <Component id="fld_product_stock" alignment="1" max="32767" attributes="0"/>
+                      <Component id="lbl_code" alignment="0" max="32767" attributes="0"/>
+                      <Component id="lbl_price" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lbl_quantity" max="32767" attributes="0"/>
+                              <Component id="spnr_quantity" min="-2" pref="138" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lbl_product_stock" pref="156" max="32767" attributes="0"/>
+                              <Component id="lbl_stock" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -55,23 +64,29 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="lbl_product_title" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="lbl_basket_title" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lbl_product_name" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="fld_product_name" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="lbl_name" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lbl_product_code" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="fld_product_code" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="lbl_code" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lbl_product_price" min="-2" pref="20" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="fld_product_price" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="lbl_price" min="-2" pref="30" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="lbl_product_stock" min="-2" pref="20" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl_product_stock" linkSize="1" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                      <Component id="lbl_quantity" linkSize="1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="fld_product_stock" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="lbl_stock" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="spnr_quantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="btn_save" min="-2" pref="45" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -80,7 +95,7 @@
         </DimensionLayout>
       </Layout>
       <SubComponents>
-        <Component class="javax.swing.JLabel" name="lbl_product_title">
+        <Component class="javax.swing.JLabel" name="lbl_basket_title">
           <Properties>
             <Property name="text" type="java.lang.String" value="Product"/>
           </Properties>
@@ -90,34 +105,20 @@
             <Property name="text" type="java.lang.String" value="Productname"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="fld_product_name">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fld_product_nameActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="lbl_product_code">
           <Properties>
             <Property name="text" type="java.lang.String" value="Productnummer"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="fld_product_code">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fld_product_codeActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JLabel" name="lbl_product_price">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Preis"/>
+            <Property name="text" type="java.lang.String" value="St&#xfc;ck Preis"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="fld_product_price">
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_product_stock">
           <Properties>
             <Property name="text" type="java.lang.String" value="Lagerstatus"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JTextField" name="fld_product_stock">
         </Component>
         <Component class="javax.swing.JButton" name="btn_save">
           <Properties>
@@ -126,6 +127,36 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_saveActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_name">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="name"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_code">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="nummer"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_price">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="preis"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_stock">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="St&#xfc;ck"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lbl_quantity">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="St&#xfc;ck"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JSpinner" name="spnr_quantity">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JSpinner(new SpinnerNumberModel(0,0,this.product.getStock(),1))"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

@@ -43,7 +43,7 @@ public class DashboardUI extends javax.swing.JFrame {
 
     private CartController cartController;
     private DefaultTableModel tmdl_cart = new DefaultTableModel();
-    
+
     public DashboardUI(User user) {
         this.user = user;
         this.customerController = new CustomerController();
@@ -76,6 +76,7 @@ public class DashboardUI extends javax.swing.JFrame {
         this.basketController = new BasketController();
         loadBasketTabel();
         loadBasketCustomerCombo();
+        loadBasketPopupMenu();
 
         this.cartController = new CartController();
         loadCartTabel();
@@ -676,27 +677,28 @@ public class DashboardUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_basket_resetActionPerformed
 
     private void btn_basket_newActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_basket_newActionPerformed
-        if(cmb_fltr_basket_customer.getSelectedIndex() != -1){
-        System.out.println(cmb_fltr_basket_customer.getSelectedIndex());
-        int selectedCustomerID =cmb_fltr_basket_customer.getItemAt(cmb_fltr_basket_customer.getSelectedIndex()).getKey(); 
-        //^^this.cmb_fltr_basket_customer.addItem(new Item(comboKey, comboValue));^^
-        Customer customer = this.customerController.getById(selectedCustomerID);
-        if(customer.getId() != 0){
-        CartUI cartUI = new CartUI(this.customerController.getById(selectedCustomerID));
-        cartUI.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    loadBasketTabel();
-                    loadProductTabel(null);
-                    loadCartTabel();
-                }
-            });
-        }else{
-            Helper.showMsg("Kunde nicht gefunden");
-        }
-        }else
+        if (cmb_fltr_basket_customer.getSelectedIndex() != -1) {
+            System.out.println(cmb_fltr_basket_customer.getSelectedIndex());
+            int selectedCustomerID = cmb_fltr_basket_customer.getItemAt(cmb_fltr_basket_customer.getSelectedIndex()).getKey();
+            //^^this.cmb_fltr_basket_customer.addItem(new Item(comboKey, comboValue));^^
+            Customer customer = this.customerController.getById(selectedCustomerID);
+            if (customer.getId() != 0) {
+                CartUI cartUI = new CartUI(this.customerController.getById(selectedCustomerID));
+                cartUI.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        loadBasketTabel();
+                        loadProductTabel(null);
+                        loadCartTabel();
+                    }
+                });
+            } else {
+                Helper.showMsg("Kunde nicht gefunden");
+            }
+        } else {
             Helper.showMsg("Bitte wählen Sie einen gültigen Kunden aus");
-        
+        }
+
     }//GEN-LAST:event_btn_basket_newActionPerformed
 
     private void loadCustomerPopupMenu() {
@@ -821,13 +823,13 @@ public class DashboardUI extends javax.swing.JFrame {
             if (basketProduct.getStock() <= 0) {
                 Helper.showMsg("Produkt nicht vorrätig!");
             } else {
-                Basket basket = new Basket(basketProduct.getId());
-                if (this.basketController.save(basket)) {
-                    loadBasketTabel();
-                    Helper.showMsg("done");
-                } else {
-                    Helper.showMsg("error");
-                }
+                BasketUI basketUI = new BasketUI(basketProduct);
+                basketUI.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        loadBasketTabel();
+                    }
+                });
             }
         });
 
@@ -861,7 +863,7 @@ public class DashboardUI extends javax.swing.JFrame {
     }
 
     private void loadBasketTabel() {
-        Object[] columnBasket = {"ID", "Productname", "Productnummer", "Preis", "Lagerstatus"};
+        Object[] columnBasket = {"ID", "Productname", "Productnummer", "Lagerstatus", "Preis", "Stück", "Gesamtpreis"};
         ArrayList<Basket> baskets = this.basketController.findAll();
 
         // Table Cleared
@@ -869,20 +871,23 @@ public class DashboardUI extends javax.swing.JFrame {
         clearModel.setRowCount(0);
 
         this.tmdl_basket.setColumnIdentifiers(columnBasket);
-        int totalPrice = 0;
+        int totalBasketPrice = 0, productCount=0;
         for (Basket basket : baskets) {
             Object[] rowObject = {
                 basket.getId(),
                 basket.getProduct().getName(),
                 basket.getProduct().getCode(),
+                basket.getProduct().getStock(),
                 basket.getProduct().getPrice(),
-                basket.getProduct().getStock(),};
+                basket.getQuantity(),
+                basket.getQuantity() * basket.getProduct().getPrice(),};
             this.tmdl_basket.addRow(rowObject);
-
-            totalPrice += basket.getProduct().getPrice();
+            
+            productCount += basket.getQuantity();
+            totalBasketPrice += basket.getQuantity() * basket.getProduct().getPrice();
         }
-        this.lbl_basket_cost.setText(String.valueOf(totalPrice) + "€");
-        this.lbl_basket_product_count.setText(String.valueOf(baskets.size()) + " Stück");
+        this.lbl_basket_cost.setText(String.valueOf(totalBasketPrice) + "€");
+        this.lbl_basket_product_count.setText(String.valueOf(productCount) + " Stück");
 
         this.tbl_basket.setModel(tmdl_basket);
         this.tbl_basket.getTableHeader().setReorderingAllowed(false);
@@ -906,7 +911,7 @@ public class DashboardUI extends javax.swing.JFrame {
         }
         this.cmb_fltr_basket_customer.setSelectedItem(null);
     }
-    
+
     private void loadCartTabel() {
         Object[] columnCart = {"ID", "Kundenname", "Productname", "Preis", "Bestelldatum", "Hinweis"};
         ArrayList<Cart> carts = this.cartController.findAll();
@@ -915,7 +920,7 @@ public class DashboardUI extends javax.swing.JFrame {
         DefaultTableModel clearModel = (DefaultTableModel) this.tbl_cart.getModel();
         clearModel.setRowCount(0);
 
-        this.tmdl_cart.setColumnIdentifiers(columnCart); 
+        this.tmdl_cart.setColumnIdentifiers(columnCart);
         for (Cart cart : carts) {
             Object[] rowObject = {
                 cart.getId(),
@@ -926,8 +931,8 @@ public class DashboardUI extends javax.swing.JFrame {
                 cart.getNote()
             };
             this.tmdl_cart.addRow(rowObject);
- 
-        } 
+
+        }
 
         this.tbl_cart.setModel(tmdl_cart);
         this.tbl_cart.getTableHeader().setReorderingAllowed(false);
@@ -938,6 +943,46 @@ public class DashboardUI extends javax.swing.JFrame {
         SwingUtilities.invokeLater(() -> {
             tbl_cart.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         });
+    }
+
+    private void loadBasketPopupMenu() {
+        this.tbl_basket.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int selectedRow = tbl_basket.rowAtPoint(e.getPoint());
+                //System.out.println(selectedRow);
+                tbl_basket.setRowSelectionInterval(selectedRow, selectedRow);
+            }
+        });
+
+        this.popup_basket.add("Bearbeiten").addActionListener(e -> {
+            int selectId = Integer.parseInt(tbl_basket.getValueAt(tbl_basket.getSelectedRow(), 0).toString());
+            System.out.println("Bearbeiten ID:" + selectId);
+            Product basketProduct = basketController.getByID(selectId).getProduct();
+
+            BasketUI basketUI = new BasketUI(basketProduct);
+            basketUI.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    loadBasketTabel();
+                }
+            });
+
+        });
+        this.popup_basket.add("Entfernen").addActionListener(e -> {
+            int selectId = Integer.parseInt(tbl_basket.getValueAt(tbl_basket.getSelectedRow(), 0).toString());
+            //System.out.println("Entfernen ID:" + selectId);
+            if (Helper.confirm("sure")) {
+                if (this.basketController.delete(selectId)) {
+                    loadBasketTabel();
+                    Helper.showMsg("done");
+                } else {
+                    Helper.showMsg("error");
+                }
+            }
+        });
+
+        this.tbl_basket.setComponentPopupMenu(this.popup_basket);
     }
 
     /**
