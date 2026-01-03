@@ -138,13 +138,12 @@ public class CartUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-     
-    private void dateCalculator(){
+    private void dateCalculator() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         this.fld_cart_date.setText(formatter.format(LocalDate.now()));
     }
-    
-    
+
+
     private void fld_cart_dateCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_fld_cart_dateCaretUpdate
     }//GEN-LAST:event_fld_cart_dateCaretUpdate
 
@@ -153,31 +152,62 @@ public class CartUI extends javax.swing.JFrame {
     }//GEN-LAST:event_fld_cart_dateActionPerformed
 
     private void btn_cartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_cartActionPerformed
-        if(Helper.isFieldEmpty(this.fld_cart_date)){
+        if (Helper.isFieldEmpty(this.fld_cart_date)) {
             Helper.showMsg("fill");
-        }else{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); ;
-            for(Basket basket : this.baskets){
-                if(basket.getProduct().getStock() <=0) continue;
+        } else {
+            boolean result = true;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            ArrayList<Cart> carts = new ArrayList<>();
+            for (Basket basket : this.baskets) {
+                
                 Cart cart = new Cart();
                 cart.setCustomerId(this.customer.getId());
                 cart.setProductId(basket.getProduct_id());
-                cart.setPrice( basket.getProduct().getPrice()); 
+                cart.setPrice(basket.getProduct().getPrice());
+                cart.setQuantity(basket.getQuantity());
                 cart.setDate(LocalDate.parse(this.fld_cart_date.getText(), formatter));
                 cart.setNote(this.tarea_cart_note.getText());
-                this.cartController.save(cart);
                 
                 Product unStockProduct = basket.getProduct();
-                unStockProduct.setStock(unStockProduct.getStock()-1);
-                this.productController.update(unStockProduct);
+                carts.add(cart);
+                if (unStockProduct.getStock() - basket.getQuantity() < 0) {
+                    if (unStockProduct.getStock() != 0) {
+                        basket.setQuantity(unStockProduct.getStock());
+                        if (basketController.update(basket)) {
+                            Helper.showMsg("Es sind nicht genügend " + unStockProduct.getName() + " auf Lager! Die Menge im Warenkorb wurde reduziert.");
+                        } else {
+                            Helper.showMsg("error");
+                        }
+                    } else {
+                        if (basketController.delete(basket.getId())) {
+                            Helper.showMsg(unStockProduct.getName() + " ist nicht in dem Lager und Es wurde im Warenkorb entfernt!");
+                        } else {
+                            Helper.showMsg("error");
+                        }
+                    }
+                    result = false;
+                    break;
+                }
             }
-            this.basketController.clear();
-            Helper.showMsg("done");
+
+            if (result) {
+                for (Cart cart : carts) {
+
+                    Product unStockProduct = productController.getById(cart.getProductId());
+                    unStockProduct.setStock(unStockProduct.getStock() - cart.getQuantity());
+
+                    this.cartController.save(cart);
+                    this.productController.update(unStockProduct);
+
+                }
+                this.basketController.clear();
+                Helper.showMsg("done");
+            }
             dispose();
         }
-        
+
     }//GEN-LAST:event_btn_cartActionPerformed
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

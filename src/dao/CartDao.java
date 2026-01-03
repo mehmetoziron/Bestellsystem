@@ -50,17 +50,19 @@ public class CartDao {
                     + "customer_id,"
                     + "product_id,"
                     + "price,"
+                    + "quantity,"
                     + "date,"
                     + "note"
                     + ")"
-                    + "VALUES (?,?,?,?,?)";
+                    + "VALUES (?,?,?,?,?,?)";
             PreparedStatement pr = this.connection.prepareStatement(query);
             pr.setInt(1, cart.getCustomerId());
             pr.setInt(2, cart.getProductId());
             pr.setInt(3, cart.getPrice());
-            pr.setDate(4, Date.valueOf(cart.getDate()));
-            pr.setString(5, cart.getNote());
-            System.out.println(pr);
+            pr.setInt(4, cart.getQuantity());
+            pr.setDate(5, Date.valueOf(cart.getDate()));
+            pr.setString(6, cart.getNote());
+            //System.out.println(pr);
             return pr.executeUpdate() != -1;
         } catch (SQLException ex) {
             System.getLogger(CartDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
@@ -74,6 +76,7 @@ public class CartDao {
         cart.setCustomerId(rs.getInt("customer_id"));
         cart.setProductId(rs.getInt("product_id"));
         cart.setPrice(rs.getInt("price"));
+        cart.setQuantity(rs.getInt("quantity"));
         cart.setNote(rs.getString("note"));
         cart.setDate(LocalDate.parse(rs.getString("date")));
         cart.setCustomer(this.customerDao.getById(cart.getCustomerId()));

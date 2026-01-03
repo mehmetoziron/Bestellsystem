@@ -913,7 +913,7 @@ public class DashboardUI extends javax.swing.JFrame {
     }
 
     private void loadCartTabel() {
-        Object[] columnCart = {"ID", "Kundenname", "Productname", "Preis", "Bestelldatum", "Hinweis"};
+        Object[] columnCart = {"ID", "Kundenname", "Productname", "Preis", "Stück", "Gesamtpreis", "Bestelldatum", "Hinweis"};
         ArrayList<Cart> carts = this.cartController.findAll();
 
         // Table Cleared
@@ -927,6 +927,8 @@ public class DashboardUI extends javax.swing.JFrame {
                 cart.getCustomer().getName(),
                 cart.getProduct().getName(),
                 cart.getPrice(),
+                cart.getQuantity(),
+                cart.getPrice()*cart.getQuantity(),
                 cart.getDate(),
                 cart.getNote()
             };

@@ -178,15 +178,24 @@ public class BasketUI extends javax.swing.JFrame {
     private void btn_saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_saveActionPerformed
 
         this.basket.setQuantity((int) spnr_quantity.getValue());
-        System.out.println(this.basket.toString());
+        //System.out.println(this.basket.toString());
         if (this.basket.getId() != 0) {
+            if ((int) spnr_quantity.getValue() == 0) {
+                if (this.basketController.delete(this.basket.getId())) {
+                    Helper.showMsg(this.basket.getProduct().getName() + " wurde entfernt");
+                } else {
+                    Helper.showMsg("error");
+                }
+            }
             if (this.basketController.update(this.basket)) {
                 Helper.showMsg("done");
             }
-        } else if (this.basketController.save(this.basket)) {
-            Helper.showMsg("done");
-        } else {
-            Helper.showMsg("error");
+        } else if ((int) spnr_quantity.getValue() > 0) {
+            if (this.basketController.save(this.basket)) {
+                Helper.showMsg("done");
+            } else {
+                Helper.showMsg("error");
+            }
         }
         dispose();
         /*boolean result = false;
