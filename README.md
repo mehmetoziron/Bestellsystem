@@ -95,13 +95,16 @@ Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 ---
 
 ### 📑 Bestellungen
+<p>
 <img src="screenshots/bild_13.png">
-
+</p>
 Übersicht aller erstellten Bestellungen.
 
 ---
 
 ### 🔄 Automatische Lageraktualisierung
+<p>
 <img src="screenshots/bild_14.png">
+</p>
 
 Nach einer erfolgreichen Bestellung werden die Lagerbestände der Produkte automatisch aktualisiert.
