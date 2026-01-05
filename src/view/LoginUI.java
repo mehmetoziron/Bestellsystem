@@ -18,8 +18,8 @@ public class LoginUI extends javax.swing.JFrame {
         initComponents();
         this.userController = new UserController();
         this.add(container);
-        this.setTitle("Kundenmanagementsystem");
-        this.setSize(500, 500);
+        this.setTitle("Lager- und Kundenmanagementsystem");
+        //this.setSize(500, 500);
         int x = (Toolkit.getDefaultToolkit().getScreenSize().width - this.getSize().width) / 2;
         int y = (Toolkit.getDefaultToolkit().getScreenSize().height - this.getSize().height) / 2;
         this.setLocation(x, y);
@@ -38,16 +38,16 @@ public class LoginUI extends javax.swing.JFrame {
         lbl_password = new javax.swing.JLabel();
         btn_login = new javax.swing.JButton();
         fld_password = new javax.swing.JPasswordField();
+        btn_register = new javax.swing.JButton();
         pnl_top = new javax.swing.JPanel();
         lbl_title = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("container");
-        setMinimumSize(new java.awt.Dimension(350, 350));
-        setPreferredSize(new java.awt.Dimension(500, 500));
+        setMinimumSize(new java.awt.Dimension(100, 100));
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.LINE_AXIS));
 
-        container.setMinimumSize(new java.awt.Dimension(300, 300));
+        container.setMinimumSize(new java.awt.Dimension(100, 100));
         container.setName("container"); // NOI18N
         container.setPreferredSize(new java.awt.Dimension(500, 500));
 
@@ -61,41 +61,52 @@ public class LoginUI extends javax.swing.JFrame {
         btn_login.setText("Anmelden");
         btn_login.addActionListener(this::btn_loginActionPerformed);
 
+        btn_register.setText("Registrieren");
+        btn_register.addActionListener(this::btn_registerActionPerformed);
+
         javax.swing.GroupLayout pnl_bottomLayout = new javax.swing.GroupLayout(pnl_bottom);
         pnl_bottom.setLayout(pnl_bottomLayout);
         pnl_bottomLayout.setHorizontalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
-                .addGap(88, 88, 88)
+                .addGap(94, 94, 94)
                 .addGroup(pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fld_email)
-                    .addComponent(lbl_password, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(fld_password)
-                    .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(100, 100, 100))
+                    .addComponent(fld_password, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btn_register)
+                    .addComponent(lbl_password, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fld_email, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_email, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        pnl_bottomLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btn_login, btn_register, fld_email, fld_password, lbl_email, lbl_password});
+
         pnl_bottomLayout.setVerticalGroup(
             pnl_bottomLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_bottomLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+                .addComponent(lbl_email, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fld_email, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(fld_email, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_password, javax.swing.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
+                .addComponent(lbl_password, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(fld_password, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                .addComponent(fld_password, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                .addGap(138, 138, 138))
+                .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_register)
+                .addGap(105, 105, 105))
         );
+
+        pnl_bottomLayout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btn_login, btn_register});
 
         pnl_top.setName("pnl_top"); // NOI18N
 
         lbl_title.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbl_title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_title.setText("Kundenmanagementsystem");
+        lbl_title.setText("Lager- und Kundenmanagementsystem");
         lbl_title.setToolTipText("");
 
         javax.swing.GroupLayout pnl_topLayout = new javax.swing.GroupLayout(pnl_top);
@@ -103,15 +114,15 @@ public class LoginUI extends javax.swing.JFrame {
         pnl_topLayout.setHorizontalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_topLayout.createSequentialGroup()
-                .addGap(128, 128, 128)
-                .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(139, 139, 139))
+                .addGap(70, 70, 70)
+                .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         pnl_topLayout.setVerticalGroup(
             pnl_topLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_topLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+                .addComponent(lbl_title, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -167,6 +178,10 @@ public class LoginUI extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_loginActionPerformed
 
+    private void btn_registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_registerActionPerformed
+        new RegisterUI();
+    }//GEN-LAST:event_btn_registerActionPerformed
+
     public static void main(String args[]) {
 
         try {
@@ -186,6 +201,7 @@ public class LoginUI extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
+    private javax.swing.JButton btn_register;
     private javax.swing.JPanel container;
     private javax.swing.JTextField fld_email;
     private javax.swing.JPasswordField fld_password;

@@ -43,6 +43,27 @@ public class UserDao {
         }
         return users;
     }
+    public boolean save(User user) {
+        try {
+            
+            String query = "INSERT INTO user "
+                    + "("
+                    + "name,"
+                    + "email,"
+                    + "password"
+                    + ")"
+                    + "VALUES (?,?,?)";
+            PreparedStatement pr = this.connection.prepareStatement(query);
+            pr.setString(1, user.getName());
+            pr.setString(2, user.getEmail());
+            pr.setString(3, user.getPassword()); 
+            //System.out.println(pr);
+            return pr.executeUpdate() != -1;
+        } catch (SQLException ex) {
+            System.getLogger(UserDao.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        return true;
+    }
 
     public User match(ResultSet rs) throws SQLException {
         User user = new User();

@@ -1,5 +1,7 @@
 package core;
 
+import entity.User;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class Helper {
@@ -54,6 +56,14 @@ public class Helper {
         }
 
         return true;
+    }
+    public static boolean EmailCheckOnList(ArrayList<User>users ,String email){
+        for(User user : users){
+            if(user.getEmail().equals(email))
+                return true;
+        }
+        
+        return false;
     }
 
     public static void optionPaneDialogDE() {
