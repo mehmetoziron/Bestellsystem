@@ -1,12 +1,13 @@
 # Datenbank einrichten
 
+---
+
+```bash
 Dieses Projekt verwendet MySQL als Datenbank.
-
 Standard-Zugangsdaten
-
 Benutzername: root
-
 Passwort: 1234
+```
 
 Schritte
 
@@ -68,11 +69,12 @@ Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 ---
 
 ### 📦 Produktverwaltung
+<p>
 <img src="screenshots/bild_8.png">
 <img src="screenshots/bild_9.png">
 <img src="screenshots/bild_10.png">
 <img src="screenshots/bild_11.png">
-
+</p>
 - Produktliste anzeigen
 - Filtern nach Code und Lagerbestand
 - Produkte hinzufügen, bearbeiten und löschen
