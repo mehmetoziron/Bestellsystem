@@ -48,18 +48,18 @@ Benutzeranmeldung mit E-Mail und Passwort.
 ---
 
 ### 📝 Registrierung
-[![Register](screenshots/bild_2.png)](screenshots/bild_2.png)
-[![Register](screenshots/bild_3.png)](screenshots/bild_3.png)
+<img src="screenshots/bild_2.png">
+<img src="screenshots/bild_3.png">
 
 Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 
 ---
 
 ### 👤 Kundenverwaltung
-<img src="screenshots/bild_4.png"
-<img src="screenshots/bild_5.png"
-<img src="screenshots/bild_6.png"
-<img src="screenshots/bild_7.png"
+<img src="screenshots/bild_4.png">
+<img src="screenshots/bild_5.png">
+<img src="screenshots/bild_6.png">
+<img src="screenshots/bild_7.png">
 
 - Kundenliste anzeigen
 - Filtern nach Kundentyp und Name
@@ -68,10 +68,10 @@ Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 ---
 
 ### 📦 Produktverwaltung
-<img src="screenshots/bild_8.png"
-<img src="screenshots/bild_9.png"
-<img src="screenshots/bild_10.png"
-<img src="screenshots/bild_11.png"
+<img src="screenshots/bild_8.png">
+<img src="screenshots/bild_9.png">
+<img src="screenshots/bild_10.png">
+<img src="screenshots/bild_11.png">
 
 - Produktliste anzeigen
 - Filtern nach Code und Lagerbestand
@@ -81,7 +81,7 @@ Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 ---
 
 ### 🛒 Warenkorb & Bestellung
-<img src="screenshots/bild_12.png"
+<img src="screenshots/bild_12.png">
 
 - Warenkorbübersicht
 - Bestellung erstellen
@@ -93,13 +93,13 @@ Neue Benutzer können sich über das Registrierungsformular im System anlegen.
 ---
 
 ### 📑 Bestellungen
-<img src="screenshots/bild_13.png"
+<img src="screenshots/bild_13.png">
 
 Übersicht aller erstellten Bestellungen.
 
 ---
 
 ### 🔄 Automatische Lageraktualisierung
-<img src="screenshots/bild_14.png"
+<img src="screenshots/bild_14.png">
 
 Nach einer erfolgreichen Bestellung werden die Lagerbestände der Produkte automatisch aktualisiert.
